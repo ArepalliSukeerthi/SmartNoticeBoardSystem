@@ -1,0 +1,271 @@
+@model IEnumerable<SmartNoticeBoardSystem.Models.Notice>
+
+@{
+    ViewData["Title"] = "Notice Board";
+}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold text-primary">
+                📢 Smart Notice Board
+            </h2>
+
+            <small class="text-muted">
+                Latest College Announcements
+            </small>
+        </div>
+
+        @if (Context.Session.GetString("Role") == "Admin" ||
+             Context.Session.GetString("Role") == "Faculty")
+        {
+            <a asp-action="Create"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Create Notice
+
+            </a>
+        }
+
+    </div>
+
+    <!-- Search -->
+
+    <form method="get" class="row mb-4">
+
+        <div class="col-md-5">
+
+            <input type="text"
+                   name="searchString"
+                   value="@ViewBag.Search"
+                   class="form-control"
+                   placeholder="🔍 Search Notices..." />
+
+        </div>
+
+        <div class="col-md-4">
+
+            <select class="form-select"
+                    name="category">
+
+                <option value="">All Categories</option>
+
+                <option value="Academic">Academic</option>
+
+                <option value="Events">Events</option>
+
+                <option value="Placements">Placements</option>
+
+                <option value="Scholarships">Scholarships</option>
+
+                <option value="Sports">Sports</option>
+
+                <option value="General">General</option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <button class="btn btn-success w-100">
+
+                Search
+
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- Notice Cards -->
+
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                <div class="card shadow-lg h-100 border-0 notice-card">
+
+                    @if(item.IsPinned)
+                    {
+                        <div class="card-header bg-warning">
+
+                            📌 Pinned Notice
+
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(item.FilePath))
+                    {
+                        var ext = System.IO.Path.GetExtension(item.FilePath).ToLower();
+
+                        if(ext==".jpg" ||
+                           ext==".jpeg" ||
+                           ext==".png")
+                        {
+                            <img src="@item.FilePath"
+                                 class="card-img-top"
+                                 style="height:220px;object-fit:cover;" />
+                        }
+                    }
+
+                    <div class="card-body">
+
+                        <h4 class="text-primary">
+
+                            @item.Title
+
+                        </h4>
+
+                        <p>
+
+                            @item.Description
+
+                        </p>
+
+                        <span class="badge bg-primary">
+
+                            @item.Category
+
+                        </span>
+
+                        @if(item.Priority=="High")
+                        {
+                            <span class="badge bg-danger">
+
+                                High
+
+                            </span>
+                        }
+                        else if(item.Priority=="Medium")
+                        {
+                            <span class="badge bg-warning text-dark">
+
+                                Medium
+
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">
+
+                                Low
+
+                            </span>
+                        }
+
+                        <hr />
+
+                        <small class="text-muted">
+
+                            Published :
+                            @item.PublishDate.ToString("dd MMM yyyy")
+
+                        </small>
+
+                        <br />
+
+                        <small class="text-muted">
+
+                            Expires :
+                            @item.ExpiryDate.ToString("dd MMM yyyy")
+
+                        </small>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+
+                            <span>
+
+                                ❤️ @item.Likes
+
+                            </span>
+
+                            <span>
+
+                                📥 @item.DownloadCount
+
+                            </span>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="d-grid gap-2">
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.NoticeId"
+                               class="btn btn-info">
+
+                                View Notice
+
+                            </a>
+
+                            @if (!string.IsNullOrEmpty(item.FilePath))
+                            {
+                                <a asp-action="Download"
+                                   asp-route-id="@item.NoticeId"
+                                   class="btn btn-secondary">
+
+                                    Download Attachment
+
+                                </a>
+                            }
+
+                            <a asp-action="Like"
+                               asp-route-id="@item.NoticeId"
+                               class="btn btn-outline-danger">
+
+                                ❤️ Like
+
+                            </a>
+
+                            @if(Context.Session.GetString("Role")=="Admin" ||
+                                Context.Session.GetString("Role")=="Faculty")
+                            {
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.NoticeId"
+                                   class="btn btn-warning">
+
+                                    Edit
+
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.NoticeId"
+                                   class="btn btn-danger"
+                                   onclick="return confirm('Delete this notice?')">
+
+                                    Delete
+
+                                </a>
+
+                                <a asp-action="TogglePin"
+                                   asp-route-id="@item.NoticeId"
+                                   class="btn btn-dark">
+
+                                    @(item.IsPinned ? "Unpin" : "Pin")
+
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>

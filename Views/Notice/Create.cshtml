@@ -1,0 +1,188 @@
+@model SmartNoticeBoardSystem.Models.Notice
+
+@{
+    ViewData["Title"] = "Create Notice";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3 class="mb-0">
+                        📢 Create New Notice
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Create"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Notice Title
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="form-control"
+                                   placeholder="Enter Notice Title" />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Description
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Enter Notice Description"></textarea>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Category
+                                    </label>
+
+                                    <select asp-for="Category"
+                                            class="form-select">
+
+                                        <option>Academic</option>
+                                        <option>Events</option>
+                                        <option>Placements</option>
+                                        <option>Scholarships</option>
+                                        <option>Sports</option>
+                                        <option>General</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Priority
+                                    </label>
+
+                                    <select asp-for="Priority"
+                                            class="form-select">
+
+                                        <option>High</option>
+                                        <option>Medium</option>
+                                        <option>Low</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Expiry Date
+                                    </label>
+
+                                    <input asp-for="ExpiryDate"
+                                           type="date"
+                                           class="form-control" />
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-check mt-4">
+
+                                    <input asp-for="IsPinned"
+                                           class="form-check-input" />
+
+                                    <label class="form-check-label">
+
+                                        📌 Pin this Notice
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Upload Attachment
+                            </label>
+
+                            <input type="file"
+                                   name="uploadFile"
+                                   class="form-control"
+                                   accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx" />
+
+                            <small class="text-muted">
+
+                                Supported: JPG, PNG, PDF, Word, PowerPoint, Excel
+
+                            </small>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                ← Back
+
+                            </a>
+
+                            <button class="btn btn-primary">
+
+                                📢 Publish Notice
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

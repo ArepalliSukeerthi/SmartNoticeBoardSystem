@@ -1,0 +1,343 @@
+﻿@model SmartNoticeBoardSystem.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- Welcome Banner -->
+
+    <div class="p-5 mb-4 rounded-4 text-white shadow"
+         style="background:linear-gradient(135deg,#2563eb,#7c3aed);">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <h1 class="fw-bold">
+
+                    Welcome,
+                    @Context.Session.GetString("Name")
+
+                </h1>
+
+                <h5>
+
+                    Role :
+                    @Context.Session.GetString("Role")
+
+                </h5>
+
+                <p>
+
+                    Smart College Notice Board Portal
+
+                </p>
+
+            </div>
+
+            <div class="col-md-4 text-end">
+
+                <img src="~/images/college.png"
+                     width="180"
+                     class="img-fluid"/>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card card-blue">
+
+                <div class="card-body text-center">
+
+                    <h5>Total Notices</h5>
+
+                    <h1>
+
+                        @Model.TotalNotices
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card card-green">
+
+                <div class="card-body text-center">
+
+                    <h5>Students</h5>
+
+                    <h1>
+
+                        @Model.TotalStudents
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card card-purple">
+
+                <div class="card-body text-center">
+
+                    <h5>Faculty</h5>
+
+                    <h1>
+
+                        @Model.TotalFaculty
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card bg-danger">
+
+                <div class="card-body text-center">
+
+                    <h5>Recent Notices</h5>
+
+                    <h1>
+
+                        @Model.RecentNotices.Count()
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br/>
+
+    <!-- Latest Notices -->
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4>
+
+                📢 Latest Notices
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Title</th>
+
+                            <th>Category</th>
+
+                            <th>Priority</th>
+
+                            <th>Date</th>
+
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach(var notice in Model.RecentNotices)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    @notice.Title
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-primary">
+
+                                        @notice.Category
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    @if(notice.Priority=="High")
+                                    {
+                                        <span class="badge bg-danger">
+
+                                            High
+
+                                        </span>
+                                    }
+                                    else if(notice.Priority=="Medium")
+                                    {
+                                        <span class="badge bg-warning text-dark">
+
+                                            Medium
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">
+
+                                            Low
+
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @notice.PublishDate.ToString("dd MMM yyyy")
+
+                                </td>
+
+                                <td>
+
+                                    <a asp-controller="Notice"
+                                       asp-action="Details"
+                                       asp-route-id="@notice.NoticeId"
+                                       class="btn btn-info btn-sm">
+
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br/>
+
+    <!-- Quick Actions -->
+
+    @if(Context.Session.GetString("Role")=="Admin" ||
+        Context.Session.GetString("Role")=="Faculty")
+    {
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <a asp-controller="Notice"
+                   asp-action="Create"
+                   class="btn btn-primary w-100 p-3">
+
+                    ➕ Create Notice
+
+                </a>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <a asp-controller="Notice"
+                   asp-action="Index"
+                   class="btn btn-success w-100 p-3">
+
+                    📄 Manage Notices
+
+                </a>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <a asp-controller="Account"
+                   asp-action="Register"
+                   class="btn btn-warning w-100 p-3">
+
+                    👥 Add User
+
+                </a>
+
+            </div>
+
+        </div>
+
+    }
+    else
+    {
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <a asp-controller="Notice"
+                   asp-action="Index"
+                   class="btn btn-primary w-100 p-3">
+
+                    📢 View Notices
+
+                </a>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <a asp-controller="Account"
+                   asp-action="Profile"
+                   class="btn btn-success w-100 p-3">
+
+                    👤 My Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

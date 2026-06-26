@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] - Smart Notice Board</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark shadow"
+     style="background:linear-gradient(90deg,#2563eb,#7c3aed);">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+   asp-controller="Home"
+   asp-action="Index">
+
+<i class="bi bi-megaphone-fill"></i>
+
+Smart Notice Board
+
+</a>
+
+<button class="navbar-toggler"
+        data-bs-toggle="collapse"
+        data-bs-target="#menu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+     id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+@if(Context.Session.GetString("Role")!=null)
+{
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Home"
+   asp-action="Index">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Notice"
+   asp-action="Index">
+
+<i class="bi bi-megaphone"></i>
+
+Notices
+
+</a>
+
+</li>
+
+@if(Context.Session.GetString("Role")=="Admin" ||
+    Context.Session.GetString("Role")=="Faculty")
+{
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Notice"
+   asp-action="Create">
+
+<i class="bi bi-plus-circle"></i>
+
+Add Notice
+
+</a>
+
+</li>
+
+}
+
+<li class="nav-item dropdown">
+
+<a class="nav-link dropdown-toggle"
+   href="#"
+   role="button"
+   data-bs-toggle="dropdown">
+
+<img src="~/images/profile.png"
+     width="35"
+     height="35"
+     class="rounded-circle border border-white me-1"/>
+
+@Context.Session.GetString("Name")
+
+</a>
+
+<ul class="dropdown-menu dropdown-menu-end shadow">
+
+<li class="dropdown-header">
+
+<strong>
+
+@Context.Session.GetString("Name")
+
+</strong>
+
+<br />
+
+<small>
+
+@Context.Session.GetString("Role")
+
+</small>
+
+</li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="Notice"
+   asp-action="Index">
+
+<i class="bi bi-card-list"></i>
+
+My Notices
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item"
+   asp-controller="Account"
+   asp-action="Logout">
+
+<i class="bi bi-box-arrow-right"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</li>
+
+}
+else
+{
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Account"
+   asp-action="Login">
+
+Login
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+   asp-controller="Account"
+   asp-action="Register">
+
+Register
+
+</a>
+
+</li>
+
+}
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container mt-4">
+
+    @RenderBody()
+
+</div>
+
+<footer class="text-center mt-5 mb-3 text-muted">
+
+<hr />
+
+© @DateTime.Now.Year Smart Notice Board System
+
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/js/site.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

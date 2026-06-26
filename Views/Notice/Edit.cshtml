@@ -1,0 +1,239 @@
+@model SmartNoticeBoardSystem.Models.Notice
+
+@{
+    ViewData["Title"] = "Edit Notice";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-warning text-dark">
+
+                    <h3 class="mb-0">
+                        ✏️ Edit Notice
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Edit"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        <input asp-for="NoticeId" type="hidden"/>
+
+                        <input asp-for="PublishDate" type="hidden"/>
+
+                        <input asp-for="Likes" type="hidden"/>
+
+                        <input asp-for="DownloadCount" type="hidden"/>
+
+                        <input asp-for="FilePath" type="hidden"/>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Notice Title
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="form-control"/>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Description
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      rows="5"
+                                      class="form-control"></textarea>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Category
+                                </label>
+
+                                <select asp-for="Category"
+                                        class="form-select">
+
+                                    <option>Academic</option>
+
+                                    <option>Events</option>
+
+                                    <option>Placements</option>
+
+                                    <option>Scholarships</option>
+
+                                    <option>Sports</option>
+
+                                    <option>General</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Priority
+                                </label>
+
+                                <select asp-for="Priority"
+                                        class="form-select">
+
+                                    <option>High</option>
+
+                                    <option>Medium</option>
+
+                                    <option>Low</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <br/>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Expiry Date
+                                </label>
+
+                                <input asp-for="ExpiryDate"
+                                       type="date"
+                                       class="form-control"/>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-check mt-4">
+
+                                    <input asp-for="IsPinned"
+                                           class="form-check-input"/>
+
+                                    <label class="form-check-label">
+
+                                        📌 Pin this Notice
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <br/>
+
+                        @if(!string.IsNullOrEmpty(Model.FilePath))
+                        {
+                            var ext = System.IO.Path.GetExtension(Model.FilePath).ToLower();
+
+                            <label class="form-label">
+
+                                Current Attachment
+
+                            </label>
+
+                            <br/>
+
+                            @if(ext==".jpg" ||
+                                ext==".jpeg" ||
+                                ext==".png")
+                            {
+                                <img src="@Model.FilePath"
+                                     class="img-thumbnail"
+                                     style="width:220px;"/>
+
+                                <br/><br/>
+                            }
+                            else if(ext==".pdf")
+                            {
+                                <a href="@Model.FilePath"
+                                   target="_blank"
+                                   class="btn btn-danger">
+
+                                    View Current PDF
+
+                                </a>
+
+                                <br/><br/>
+                            }
+                            else
+                            {
+                                <a href="@Model.FilePath"
+                                   target="_blank"
+                                   class="btn btn-secondary">
+
+                                    Download Current File
+
+                                </a>
+
+                                <br/><br/>
+                            }
+                        }
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Replace Attachment
+
+                            </label>
+
+                            <input type="file"
+                                   name="uploadFile"
+                                   class="form-control"
+                                   accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"/>
+
+                        </div>
+
+                        <hr/>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                ← Cancel
+
+                            </a>
+
+                            <button class="btn btn-warning">
+
+                                💾 Update Notice
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

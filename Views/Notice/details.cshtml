@@ -1,0 +1,214 @@
+@model SmartNoticeBoardSystem.Models.Notice
+
+@{
+    ViewData["Title"] = "Notice Details";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white">
+
+            <h2>@Model.Title</h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-8">
+
+                    <h5>Description</h5>
+
+                    <p class="fs-5">
+                        @Model.Description
+                    </p>
+
+                    <hr />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <h6>Category</h6>
+
+                            <span class="badge bg-primary">
+                                @Model.Category
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <h6>Priority</h6>
+
+                            @if(Model.Priority=="High")
+                            {
+                                <span class="badge bg-danger">
+                                    High
+                                </span>
+                            }
+                            else if(Model.Priority=="Medium")
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Medium
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    Low
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <h6>Published Date</h6>
+
+                    <p>
+
+                        @Model.PublishDate.ToString("dd MMM yyyy hh:mm tt")
+
+                    </p>
+
+                    <hr />
+
+                    <h5>Attachment</h5>
+
+                    @if (!string.IsNullOrEmpty(Model.FilePath))
+                    {
+                        var ext = System.IO.Path.GetExtension(Model.FilePath).ToLower();
+
+                        if (ext == ".jpg" ||
+                            ext == ".jpeg" ||
+                            ext == ".png")
+                        {
+                            <img src="@Model.FilePath"
+                                 class="img-fluid rounded shadow"
+                                 style="max-height:600px;" />
+                        }
+                        else if (ext == ".pdf")
+                        {
+                            <iframe src="@Model.FilePath"
+                                    width="100%"
+                                    height="650"
+                                    style="border:none;">
+                            </iframe>
+                        }
+                        else
+                        {
+                            <a href="@Model.FilePath"
+                               target="_blank"
+                               class="btn btn-success">
+
+                                Download Attachment
+
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+
+                            No attachment uploaded.
+
+                        </div>
+                    }
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card bg-light shadow">
+
+                        <div class="card-header">
+
+                            Notice Information
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <p>
+
+                                <strong>Notice ID :</strong>
+
+                                @Model.NoticeId
+
+                            </p>
+
+                            <p>
+
+                                <strong>Category :</strong>
+
+                                @Model.Category
+
+                            </p>
+
+                            <p>
+
+                                <strong>Priority :</strong>
+
+                                @Model.Priority
+
+                            </p>
+
+                            <p>
+
+                                <strong>Expiry :</strong>
+
+                                @Model.ExpiryDate.ToString("dd MMM yyyy")
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+
+                ← Back to Notices
+
+            </a>
+
+            @if(Context.Session.GetString("Role")=="Admin" ||
+                Context.Session.GetString("Role")=="Faculty")
+            {
+                <a asp-action="Edit"
+                   asp-route-id="@Model.NoticeId"
+                   class="btn btn-warning">
+
+                    Edit
+
+                </a>
+
+                <a asp-action="Delete"
+                   asp-route-id="@Model.NoticeId"
+                   class="btn btn-danger"
+                   onclick="return confirm('Delete this notice?');">
+
+                    Delete
+
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</div>
