@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartNoticeBoardSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c7e6ed01837303525cab2b66219e9311f5b7ca1")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartNoticeBoardSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartNoticeBoardSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

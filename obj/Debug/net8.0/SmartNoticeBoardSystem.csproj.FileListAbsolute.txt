@@ -108,3 +108,4 @@ D:\SmartNoticeBoardSystem\obj\Debug\net8.0\refint\SmartNoticeBoardSystem.dll
 D:\SmartNoticeBoardSystem\obj\Debug\net8.0\SmartNoticeBoardSystem.pdb
 D:\SmartNoticeBoardSystem\obj\Debug\net8.0\SmartNoticeBoardSystem.genruntimeconfig.cache
 D:\SmartNoticeBoardSystem\obj\Debug\net8.0\ref\SmartNoticeBoardSystem.dll
+D:\SmartNoticeBoardSystem\obj\Debug\net8.0\SmartNoticeBoardSystem.sourcelink.json
